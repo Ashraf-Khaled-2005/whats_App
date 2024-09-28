@@ -1,4 +1,4 @@
-name: whats_app_clone
+name: our_whatsapp
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.5.0
+  sdk: ^3.5.2
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -35,6 +35,24 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  device_preview: ^1.2.0
+  flutter_native_splash: ^2.4.1
+flutter_native_splash:
+  
+  color: "#FFFFFF"
+  color_dark: "#111B21"
+  image_dark: images/splash_dark.png
+  image: images/splash_white.png
+  android_12:
+    color: "#FFFFFF"
+    color_dark: "#111B21"
+    image_dark: images/splash_dark.png
+    image: images/splash_white.png
+    icon_background_color: "#FFFFFF"
+    icon_background_color_dark: "#111B21"
+
+   
+  
 
 dev_dependencies:
   flutter_test:
@@ -59,8 +77,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+     - images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
