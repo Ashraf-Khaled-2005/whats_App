@@ -1,5 +1,4 @@
 import 'package:country_picker/country_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:our_whatsapp/login/custom_widget/custom_text_field.dart';
 import 'package:our_whatsapp/login/verification_page.dart';
@@ -16,43 +15,37 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController countryCodeController;
   late TextEditingController numberController;
 
-  showCountryCodePicker(){
-
-showCountryPicker(context: context, 
-showPhoneCode: true,
-favorite: ['EG'],
-countryListTheme: CountryListThemeData(
-
-  bottomSheetHeight: 600,
-  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-  flagSize: 22,
-  borderRadius: BorderRadius.circular(20),
-  textStyle: TextStyle(color: Colors.grey),
-  inputDecoration: InputDecoration(
-labelStyle: TextStyle(color: Colors.grey),
-prefixIcon: Icon(Icons.language,color: const Color.fromARGB(255, 212, 194, 137),)
-,hintText: "Search country name or code",
-enabledBorder: UnderlineInputBorder(
-borderSide: BorderSide(color: const Color.fromARGB(255, 120, 94, 94))
-
-),
-focusedBorder: UnderlineInputBorder(
-borderSide: BorderSide(color: const Color.fromARGB(255, 176, 137, 55))
-
-)
-
-  )
-)
-,onSelect: (country){
-
-countryNameController.text =country.name;
-countryCodeController.text =country.countryCode;
-
-
-
-},);
-
+  showCountryCodePicker() {
+    showCountryPicker(
+      context: context,
+      showPhoneCode: true,
+      favorite: ['EG'],
+      countryListTheme: CountryListThemeData(
+          bottomSheetHeight: 600,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          flagSize: 22,
+          borderRadius: BorderRadius.circular(20),
+          textStyle: const TextStyle(color: Colors.grey),
+          inputDecoration: const InputDecoration(
+              labelStyle: TextStyle(color: Colors.grey),
+              prefixIcon: Icon(
+                Icons.language,
+                color: Color.fromARGB(255, 212, 194, 137),
+              ),
+              hintText: "Search country name or code",
+              enabledBorder: UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Color.fromARGB(255, 120, 94, 94))),
+              focusedBorder: UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Color.fromARGB(255, 176, 137, 55))))),
+      onSelect: (country) {
+        countryNameController.text = country.name;
+        countryCodeController.text = country.countryCode;
+      },
+    );
   }
+
   @override
   void initState() {
     countryNameController = TextEditingController(text: 'Egypt');
@@ -88,7 +81,7 @@ countryCodeController.text =country.countryCode;
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: RichText(
                 textAlign: TextAlign.center,
-                text: TextSpan(
+                text: const TextSpan(
                     text: 'WhatsApp will need to verify your number. ',
                     style: TextStyle(color: Colors.grey, height: 1.5),
                     children: [
@@ -103,7 +96,7 @@ countryCodeController.text =country.countryCode;
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 50),
             child: CustomTextField(
-              onTap:  showCountryCodePicker,
+              onTap: showCountryCodePicker,
               controller: countryNameController,
               readOnly: true,
               suffixIcon: const Icon(
@@ -141,17 +134,19 @@ countryCodeController.text =country.countryCode;
               ],
             ),
           ),
-          const SizedBox(height: 20,),
-
+          const SizedBox(
+            height: 20,
+          ),
         ],
       ),
-      floatingActionButton: TextButton(onPressed: (){
-
-          Navigator.push(
+      floatingActionButton: TextButton(
+          onPressed: () {
+            Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => VerificationPage()),
+              MaterialPageRoute(builder: (context) => const VerificationPage()),
             );
-      }, child: Text("NEXT")),
+          },
+          child: const Text("NEXT")),
     );
   }
 }

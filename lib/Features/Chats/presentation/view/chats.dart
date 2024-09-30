@@ -1,21 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: ChatScreen(),
-    );
-  }
-}
+import '../../model/ChatItemData.dart';
+import '../widget/ChatItem.dart';
+import '../../../splash/presentation/view/widget/ChatDetailScreen.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -28,37 +16,43 @@ class _ChatScreenState extends State<ChatScreen> {
       name: 'Ahmed Ali',
       message: 'Hey! How are you?',
       time: '10:30 AM',
-      imageUrl: 'https://th.bing.com/th/id/OIP.5pGmMOmWdCOwrIy_WTIyXQHaJQ?rs=1&pid=ImgDetMain',
+      imageUrl:
+          'https://th.bing.com/th/id/OIP.5pGmMOmWdCOwrIy_WTIyXQHaJQ?rs=1&pid=ImgDetMain',
     ),
     ChatItemData(
       name: 'Sara Ahmed',
       message: 'See you tomorrow!',
       time: '9:45 AM',
-      imageUrl: 'https://th.bing.com/th/id/OIP.N57sekO4JzTRMUmD5f_ZVgHaEK?rs=1&pid=ImgDetMain',
+      imageUrl:
+          'https://th.bing.com/th/id/OIP.N57sekO4JzTRMUmD5f_ZVgHaEK?rs=1&pid=ImgDetMain',
     ),
     ChatItemData(
       name: 'Mohamed Samir',
       message: 'Can we reschedule?',
       time: 'Yesterday',
-      imageUrl: 'https://th.bing.com/th/id/OIP.5pGmMOmWdCOwrIy_WTIyXQHaJQ?rs=1&pid=ImgDetMain',
+      imageUrl:
+          'https://th.bing.com/th/id/OIP.5pGmMOmWdCOwrIy_WTIyXQHaJQ?rs=1&pid=ImgDetMain',
     ),
     ChatItemData(
       name: 'Fatma',
       message: 'I sent you the files.',
       time: 'Yesterday',
-      imageUrl: 'https://th.bing.com/th/id/OIP.N57sekO4JzTRMUmD5f_ZVgHaEK?rs=1&pid=ImgDetMain',
+      imageUrl:
+          'https://th.bing.com/th/id/OIP.N57sekO4JzTRMUmD5f_ZVgHaEK?rs=1&pid=ImgDetMain',
     ),
     ChatItemData(
       name: 'John Doe',
       message: 'Let’s catch up soon.',
       time: '2 days ago',
-      imageUrl: 'https://th.bing.com/th/id/OIP.5pGmMOmWdCOwrIy_WTIyXQHaJQ?rs=1&pid=ImgDetMain',
+      imageUrl:
+          'https://th.bing.com/th/id/OIP.5pGmMOmWdCOwrIy_WTIyXQHaJQ?rs=1&pid=ImgDetMain',
     ),
     ChatItemData(
       name: 'Yassmeen',
       message: 'Don’t forget the meeting!',
       time: '3 days ago',
-      imageUrl: 'https://th.bing.com/th/id/OIP.N57sekO4JzTRMUmD5f_ZVgHaEK?rs=1&pid=ImgDetMain',
+      imageUrl:
+          'https://th.bing.com/th/id/OIP.N57sekO4JzTRMUmD5f_ZVgHaEK?rs=1&pid=ImgDetMain',
     ),
   ];
 
@@ -103,18 +97,18 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         title: _isSearching
             ? TextField(
-          decoration: InputDecoration(
-            hintText: 'Search',
-            border: InputBorder.none,
-            hintStyle: TextStyle(color: Colors.white54),
-          ),
-          style: TextStyle(color: Colors.white),
-          onChanged: (value) {
-            setState(() {
-              searchQuery = value;
-            });
-          },
-        )
+                decoration: InputDecoration(
+                  hintText: 'Search',
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(color: Colors.white54),
+                ),
+                style: TextStyle(color: Colors.white),
+                onChanged: (value) {
+                  setState(() {
+                    searchQuery = value;
+                  });
+                },
+              )
             : const Text("WhatsApp", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.green,
         actions: [
@@ -182,7 +176,8 @@ class _ChatScreenState extends State<ChatScreen> {
             time: filteredChatItems[index].time,
             imageUrl: filteredChatItems[index].imageUrl,
             onTapProfilePicture: () {
-              _showProfilePictureDialog(context, filteredChatItems[index].imageUrl);
+              _showProfilePictureDialog(
+                  context, filteredChatItems[index].imageUrl);
             },
             onTapChatItem: () {
               Navigator.push(
@@ -248,158 +243,6 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         );
       },
-    );
-  }
-}
-
-class ChatDetailScreen extends StatefulWidget {
-  final ChatItemData chatItem;
-
-  const ChatDetailScreen({Key? key, required this.chatItem}) : super(key: key);
-
-  @override
-  _ChatDetailScreenState createState() => _ChatDetailScreenState();
-}
-
-class _ChatDetailScreenState extends State<ChatDetailScreen> {
-  final TextEditingController _messageController = TextEditingController();
-  List<String> messages = []; // قائمة الرسائل
-
-  void _sendMessage() {
-    if (_messageController.text.isNotEmpty) {
-      setState(() {
-        messages.add(_messageController.text); // إضافة الرسالة إلى القائمة
-        _messageController.clear(); // مسح حقل الإدخال
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(widget.chatItem.imageUrl),
-                radius: 20,
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(widget.chatItem.name, style: const TextStyle(fontSize: 16)),
-                  const Text("online", style: TextStyle(fontSize: 12, color: Colors.white70)),
-                ],
-              ),
-            ],
-          ),
-        ),
-        backgroundColor: Colors.green,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.videocam),
-            onPressed: () {
-              // حدث لمكالمة الفيديو
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.call),
-            onPressed: () {
-              // حدث للمكالمة الصوتية
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () {
-              // المزيد من الخيارات
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: messages.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(messages[index]), // عرض الرسالة
-                    subtitle: Text('Just now'), // الوقت الافتراضي
-                  );
-                },
-              ),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _messageController,
-                    decoration: InputDecoration(
-                      hintText: 'Type a message...',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: _sendMessage, // إرسال الرسالة
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ChatItemData {
-  final String name;
-  final String message;
-  final String time;
-  final String imageUrl;
-
-  ChatItemData({required this.name, required this.message, required this.time, required this.imageUrl});
-}
-
-class ChatItem extends StatelessWidget {
-  final String name;
-  final String message;
-  final String time;
-  final String imageUrl;
-  final VoidCallback onTapProfilePicture;
-  final VoidCallback onTapChatItem;
-
-  const ChatItem({
-    Key? key,
-    required this.name,
-    required this.message,
-    required this.time,
-    required this.imageUrl,
-    required this.onTapProfilePicture,
-    required this.onTapChatItem,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: GestureDetector(
-        onTap: onTapProfilePicture,
-        child: CircleAvatar(
-          backgroundImage: NetworkImage(imageUrl),
-        ),
-      ),
-      title: Text(name),
-      subtitle: Text(message),
-      trailing: Text(time),
-      onTap: onTapChatItem,
     );
   }
 }

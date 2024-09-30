@@ -1,8 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:device_preview/device_preview.dart';
-import 'package:our_whatsapp/welcome/welcome_page.dart';
-void main() => runApp( MyApp());
+import 'package:our_whatsapp/Features/splash/presentation/view/welcome_page.dart';
+
+void main() => runApp(const MyApp());
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -10,12 +10,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-       
-      title: 'our Whatsapp',
-      theme: ThemeData.dark(),
-debugShowCheckedModeBanner: false,      
-      home: WelcomePage()
-    );
+        title: 'our Whatsapp',
+        theme: ThemeData.dark(),
+        debugShowCheckedModeBanner: false,
+        home: const WelcomePage());
   }
 }
-
