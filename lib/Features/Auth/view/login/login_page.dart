@@ -1,7 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:our_whatsapp/login/custom_widget/custom_text_field.dart';
-import 'package:our_whatsapp/login/verification_page.dart';
+import 'package:our_whatsapp/Features/Auth/view/login/custom_widget/custom_text_field.dart';
+import 'package:our_whatsapp/Features/Auth/view/login/verification_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
