@@ -4,13 +4,15 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:our_whatsapp/Features/Auth/data/model/RegUser.dart';
-import 'package:our_whatsapp/Features/presentation/manager/cubit/SignUpCubit/SignupCubit.dart';
-import 'package:our_whatsapp/Features/presentation/view/login/custom_widget/custom_text_field.dart';
-import 'package:our_whatsapp/Features/presentation/view/login/verification_page.dart';
+import 'package:our_whatsapp/Features/Auth/presentation/manager/cubit/SignUpCubit/SignupCubit.dart';
+import 'package:our_whatsapp/Features/Auth/presentation/manager/cubit/SignUpCubit/signupCubitstates.dart';
+import 'package:our_whatsapp/Features/Auth/presentation/view/login/custom_widget/custom_text_field.dart';
+import 'package:our_whatsapp/Features/Auth/presentation/view/login/verification_page.dart';
 import 'package:our_whatsapp/core/service/auth_state.dart';
+import 'package:our_whatsapp/core/service/cacheHelper.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../core/service/imagepick.dart';
+import '../../../../../core/service/imagepick.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -27,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController Username;
   late TextEditingController pass;
   late String image;
+  bool isSaved = false;
   File? imagefile = null;
   late GlobalKey<FormState> key;
   late AutovalidateMode autovalidateMode;
@@ -218,38 +221,86 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 20,
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        child: Checkbox.adaptive(
+                          checkColor: Colors.white,
+                          key: ValueKey<bool>(
+                              isSaved), // Unique key for animation
+                          activeColor: const Color(0xFF00A884),
+                          value: isSaved,
+                          onChanged: (value) {
+                            setState(() {
+                              isSaved = value ?? false;
+                            });
+                          },
+                        )),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          isSaved = !isSaved;
+                        });
+                      },
+                      child: Text(
+                        "Saved",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
               ],
             ),
           ),
         ),
       ),
-      floatingActionButton: TextButton(
-          onPressed: () {
-            if (key.currentState!.validate()) {
-              if (imagefile != null) {
-                ReguserModel user = ReguserModel(
-                    id: '0',
-                    email: Email.text,
-                    pass: pass.text,
-                    username: Username.text,
-                    imagefile: image);
-                context.read<SignupCubit>().signUp(user);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const AuthStateHandler()),
-                );
-              }
-              {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Image is requried")));
-              }
-            }
-            setState(() {
-              autovalidateMode = AutovalidateMode.always;
-            });
-          },
-          child: const Text("NEXT")),
+      floatingActionButton: BlocConsumer<SignupCubit, Signupstates>(
+        listener: (context, state) {
+          if (state is SignupCubitsuccess) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AuthStateHandler()),
+            );
+          } else if (state is SignupCubitFailure) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.err)));
+          }
+        },
+        builder: (context, state) {
+          if (state is SignupCubitloading)
+            return CircularProgressIndicator();
+          else {
+            return TextButton(
+                onPressed: () {
+                  if (key.currentState!.validate()) {
+                    if (imagefile != null) {
+                      ReguserModel user = ReguserModel(
+                          id: '0',
+                          email: Email.text,
+                          pass: pass.text,
+                          username: Username.text,
+                          imagefile: image);
+                      context.read<SignupCubit>().signUp(user);
+                      if (isSaved) {
+                        CacheHelper.saveData(key: "ISSAVED", value: isSaved);
+                        CacheHelper.saveData(key: "EMAIL", value: Email.text);
+                        CacheHelper.saveData(key: "PASS", value: pass.text);
+                      }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Image is requried")));
+                    }
+                  }
+                  setState(() {
+                    autovalidateMode = AutovalidateMode.always;
+                  });
+                },
+                child: const Text("NEXT"));
+          }
+        },
+      ),
     );
   }
 }

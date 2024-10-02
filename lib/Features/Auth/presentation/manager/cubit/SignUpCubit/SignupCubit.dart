@@ -15,7 +15,7 @@ class SignupCubit extends Cubit<Signupstates> {
     var result = await Repo.SignUp(user);
 
     result.fold((l) {
-      return SignupCubitFailure(err: l.message);
+      return emit(SignupCubitFailure(err: l.message));
     }, (r) async {
       await FirebaseFirestore.instance
           .collection('Users')
@@ -27,7 +27,7 @@ class SignupCubit extends Cubit<Signupstates> {
         'username': user.username,
         'id': FirebaseAuth.instance.currentUser!.uid
       });
-      SignupCubitsuccess();
+      emit(SignupCubitsuccess());
     });
   }
 }

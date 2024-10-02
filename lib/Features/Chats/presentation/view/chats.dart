@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,7 +14,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   List<ChatItemData> chatItems = [
     ChatItemData(
-      name: 'Ahmed Ali',
+      name: FirebaseAuth.instance.currentUser!.email!,
       message: 'Hey! How are you?',
       time: '10:30 AM',
       imageUrl:

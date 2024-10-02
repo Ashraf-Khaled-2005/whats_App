@@ -1,11 +1,15 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:our_whatsapp/Features/Auth/data/auth_Repo/authRepo.dart';
-import 'package:our_whatsapp/Features/presentation/manager/cubit/SignUpCubit/SignupCubit.dart';
+import 'package:our_whatsapp/Features/Auth/presentation/manager/cubit/Login/login_cubit.dart';
+import 'package:our_whatsapp/Features/Auth/presentation/manager/cubit/Shared_bloc/Shared_cubit.dart';
+import 'package:our_whatsapp/Features/Auth/presentation/manager/cubit/SignUpCubit/SignupCubit.dart';
 import 'package:our_whatsapp/Features/splash/presentation/view/welcome_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'Features/presentation/view/login/verification_page.dart';
+import 'Features/Auth/presentation/manager/cubit/Shared_bloc/Shared_cubit_state.dart';
+import 'core/service/auth_state.dart';
+import 'core/service/bloc_ob.dart';
+import 'core/service/cacheHelper.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -13,6 +17,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Bloc.observer = MyBlocObserver();
+  await CacheHelper.initCacheHelper();
   runApp(const MyApp());
 }
 
@@ -22,17 +28,40 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => SignupCubit(
-              AuthrepoImpl(),
-            ),
+      providers: [
+        BlocProvider(
+          create: (context) => SignupCubit(
+            AuthrepoImpl(),
           ),
-        ],
-        child: MaterialApp(
+        ),
+        BlocProvider(
+          create: (context) => LoginCubit(
+            AuthrepoImpl(),
+          ),
+        ),
+        BlocProvider(create: (_) => SharedCubit()..getShared())
+      ],
+      child: Builder(
+        builder: (context) {
+          return MaterialApp(
             title: 'our Whatsapp',
             theme: ThemeData.dark(),
             debugShowCheckedModeBanner: false,
-            home: const WelcomePage()));
+            home: BlocConsumer<SharedCubit, SharedState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                if (state is SharedSuccess && state.value == true) {
+                  context
+                      .read<LoginCubit>()
+                      .Login(email: state.email, pass: state.pass);
+                  return const AuthStateHandler(); // Temporary empty widget, as listener will handle navigation
+                }
+                return const WelcomePage();
+              },
+            ),
+          );
+        },
+      ),
+    );
   }
 }

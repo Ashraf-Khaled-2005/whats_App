@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:our_whatsapp/Features/Chats/presentation/view/chats.dart';
-import 'package:our_whatsapp/Features/presentation/view/login/login_page.dart';
-import 'package:our_whatsapp/Features/presentation/view/login/verification_page.dart';
+import 'package:our_whatsapp/Features/Auth/presentation/view/login/login_page.dart';
+import 'package:our_whatsapp/Features/Auth/presentation/view/login/verification_page.dart';
 
 class AuthStateHandler extends StatelessWidget {
   const AuthStateHandler({Key? key}) : super(key: key);
