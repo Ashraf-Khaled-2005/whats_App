@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:our_whatsapp/Features/Auth/view/login/login_page.dart';
+import 'package:our_whatsapp/Features/presentation/view/login/login_page.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});

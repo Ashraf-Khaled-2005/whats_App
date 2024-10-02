@@ -14,8 +14,10 @@ class CustomTextField extends StatelessWidget {
     this.onChanged,
     this.fontSize,
     this.autoFocus,
+    required this.validator,
+    this.onSaved,
   });
-
+  final String? Function(String?) validator;
   final TextEditingController? controller;
   final String? hintText;
   final bool? readOnly;
@@ -24,6 +26,7 @@ class CustomTextField extends StatelessWidget {
   final String? prefixText;
   final VoidCallback? onTap;
   final Widget? suffixIcon;
+  final void Function(String?)? onSaved;
   final Function(String)? onChanged;
   final double? fontSize;
   final bool? autoFocus;
@@ -31,6 +34,8 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onSaved: onSaved,
+      validator: validator,
       onTap: onTap,
       controller: controller,
       readOnly: readOnly ?? false,
