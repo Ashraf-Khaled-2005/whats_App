@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:our_whatsapp/Features/Chats/presentation/manager/cubit/get_user_data_cubit.dart';
 import 'package:our_whatsapp/Features/Chats/presentation/view/chats.dart';
-import 'package:our_whatsapp/Features/Auth/presentation/view/login/login_page.dart';
+import 'package:our_whatsapp/Features/Auth/presentation/view/login/Signup.dart';
 import 'package:our_whatsapp/Features/Auth/presentation/view/login/verification_page.dart';
 
 class AuthStateHandler extends StatelessWidget {
-  const AuthStateHandler({Key? key}) : super(key: key);
+  const AuthStateHandler({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +23,22 @@ class AuthStateHandler extends StatelessWidget {
           if (!user.emailVerified) {
             return const VerificationPage();
           }
-
-          return ChatScreen();
+          context.read<GetUserDataCubit>().getData();
+          return BlocBuilder<GetUserDataCubit, GetUserDataState>(
+            builder: (context, state) {
+              if (state is GetUserDatasuccess) {
+                return ChatScreen(
+                  user: state.user,
+                );
+              } else if (state is GetUserDataloading) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                return const SignupPage();
+              }
+            },
+          );
         } else {
-          return const LoginPage();
+          return const SignupPage();
         }
       },
     );

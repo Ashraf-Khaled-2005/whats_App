@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../../Chats/presentation/view/chats.dart';
-import '../../../../Chats/model/ChatItemData.dart';
+import '../../../../Chats/data/model/ChatItemData.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final ChatItemData chatItem;

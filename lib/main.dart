@@ -4,6 +4,9 @@ import 'package:our_whatsapp/Features/Auth/data/auth_Repo/authRepo.dart';
 import 'package:our_whatsapp/Features/Auth/presentation/manager/cubit/Login/login_cubit.dart';
 import 'package:our_whatsapp/Features/Auth/presentation/manager/cubit/Shared_bloc/Shared_cubit.dart';
 import 'package:our_whatsapp/Features/Auth/presentation/manager/cubit/SignUpCubit/SignupCubit.dart';
+import 'package:our_whatsapp/Features/Auth/presentation/view/login/Signup.dart';
+import 'package:our_whatsapp/Features/Chats/data/Repo/Chat_Repo.dart';
+import 'package:our_whatsapp/Features/Chats/presentation/manager/cubit/get_user_data_cubit.dart';
 import 'package:our_whatsapp/Features/splash/presentation/view/welcome_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Features/Auth/presentation/manager/cubit/Shared_bloc/Shared_cubit_state.dart';
@@ -39,7 +42,8 @@ class MyApp extends StatelessWidget {
             AuthrepoImpl(),
           ),
         ),
-        BlocProvider(create: (_) => SharedCubit()..getShared())
+        BlocProvider(create: (_) => SharedCubit()..getShared()),
+        BlocProvider(create: (_) => GetUserDataCubit(ChatRepoImpl()))
       ],
       child: Builder(
         builder: (context) {

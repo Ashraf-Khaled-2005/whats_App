@@ -1,12 +1,18 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:our_whatsapp/Features/Chats/data/model/userData.dart';
 
-import '../../model/ChatItemData.dart';
+import '../../data/model/ChatItemData.dart';
 import '../widget/ChatItem.dart';
 import '../../../splash/presentation/view/widget/ChatDetailScreen.dart';
 
 class ChatScreen extends StatefulWidget {
+  final UserData user;
+
+  const ChatScreen({super.key, required this.user});
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -88,6 +94,7 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  @override
   @override
   Widget build(BuildContext context) {
     List<ChatItemData> filteredChatItems = chatItems.where((item) {

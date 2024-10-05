@@ -12,7 +12,20 @@
           "package_name": "com.example.our_whatsapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1098632884340-i3s33muha9smom9ne8kqoq817itckg86.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.our_whatsapp",
+            "certificate_hash": "659b64e2b8ef3edbc60f181df14149446557b6a8"
+          }
+        },
+        {
+          "client_id": "1098632884340-m2dtt21qg5neo3t1l569bm3ntk1tholm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBzbpd6RYfp-j9VG9noasBpTJ3Jns0xBmA"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1098632884340-m2dtt21qg5neo3t1l569bm3ntk1tholm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1098632884340-4t5p1u70295l6k82i8ntbij4l1ts3ald.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ourWhatsapp"
+              }
+            }
+          ]
         }
       }
     }

@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
-import 'package:statuspart/status/addstory.dart';
-import 'package:statuspart/status/liststatus.dart';
-import 'package:statuspart/status/storyview.dart';
+
+import 'addstory.dart';
+import 'liststatus.dart';
+import 'storyview.dart';
 
 class status extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
-
-      appBar: AppBar(leading: Icon(Icons.search),title: Text('Status',style: TextStyle(color: Colors.white),),backgroundColor: Color(0xff075e54)),
+      appBar: AppBar(
+          leading: Icon(Icons.search),
+          title: Text(
+            'Status',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xff075e54)),
       body: Column(
         children: <Widget>[
           Card(
             color: Colors.white,
             elevation: 0.0,
-
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListTile(
-                onTap: ()=> Navigator.push(context,MaterialPageRoute(builder: (context)=>Addstory())),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Addstory())),
                 leading: Stack(
                   children: <Widget>[
                     CircleAvatar(
@@ -68,30 +73,30 @@ class status extends StatelessWidget {
                     color: Color(0xff075e54))),
           ),
           Container(
-            height: height*0.69,
+            height: height * 0.69,
             child: ListView.builder(
                 itemCount: chats.length,
-                itemBuilder: (context,i){
+                itemBuilder: (context, i) {
                   return ListTile(
-                    onTap: ()=> Navigator.push(context,MaterialPageRoute(builder: (context)=>StoryPageView())),
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => StoryPageView())),
                     title: Text(chats[i]['name']),
                     subtitle: Text(chats[i]['time']),
                     leading: AdvancedAvatar(
                       image: NetworkImage(chats[i]['image']),
                       foregroundDecoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.blue,width: 3),
+                        border: Border.all(color: Colors.blue, width: 3),
                       ),
                       size: 45,
                     ),
                   );
                 }),
           ),
-
-
         ],
       ),
-
     );
   }
 }

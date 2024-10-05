@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:our_whatsapp/Features/Auth/presentation/view/login/login_page.dart';
+import 'package:our_whatsapp/Features/Auth/presentation/view/login/Signup.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -53,7 +53,7 @@ class WelcomePage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const LoginPage(),
+                          builder: (context) => const SignupPage(),
                         ),
                       );
                     },

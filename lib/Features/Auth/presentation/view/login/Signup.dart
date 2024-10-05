@@ -10,18 +10,19 @@ import 'package:our_whatsapp/Features/Auth/presentation/view/login/custom_widget
 import 'package:our_whatsapp/Features/Auth/presentation/view/login/verification_page.dart';
 import 'package:our_whatsapp/core/service/auth_state.dart';
 import 'package:our_whatsapp/core/service/cacheHelper.dart';
+import 'package:our_whatsapp/Features/Auth/presentation/view/login.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../core/service/imagepick.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignupPageState extends State<SignupPage> {
   late TextEditingController countryNameController;
   late TextEditingController countryCodeController;
   late TextEditingController numberController;
@@ -251,6 +252,15 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ],
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Login()));
+                    },
+                    child: Text("Already Have an account?")),
               ],
             ),
           ),
@@ -277,6 +287,8 @@ class _LoginPageState extends State<LoginPage> {
                   if (key.currentState!.validate()) {
                     if (imagefile != null) {
                       ReguserModel user = ReguserModel(
+                          phone: countryCodeController.text +
+                              numberController.text,
                           id: '0',
                           email: Email.text,
                           pass: pass.text,
