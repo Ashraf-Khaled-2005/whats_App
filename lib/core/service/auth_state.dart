@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:our_whatsapp/Features/Chats/presentation/manager/cubit/get_user_data_cubit.dart';
-import 'package:our_whatsapp/Features/Chats/presentation/view/chats.dart';
+import 'package:our_whatsapp/Features/Chats/presentation/manager/GetUserDataCubit/get_user_data_cubit.dart';
 import 'package:our_whatsapp/Features/Auth/presentation/view/login/Signup.dart';
 import 'package:our_whatsapp/Features/Auth/presentation/view/login/verification_page.dart';
+import '../../Features/Chats/presentation/view/Chat.dart';
 
 class AuthStateHandler extends StatelessWidget {
   const AuthStateHandler({super.key});

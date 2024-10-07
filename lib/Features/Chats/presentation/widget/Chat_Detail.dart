@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../Chats/data/model/ChatItemData.dart';
+
+import '../../data/model/ChatItemData.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final ChatItemDataModel chatItem;
@@ -12,13 +13,13 @@ class ChatDetailScreen extends StatefulWidget {
 
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
   final TextEditingController _messageController = TextEditingController();
-  List<String> messages = []; // قائمة الرسائل
+  List<String> messages = [];
 
   void _sendMessage() {
     if (_messageController.text.isNotEmpty) {
       setState(() {
-        messages.add(_messageController.text); // إضافة الرسالة إلى القائمة
-        _messageController.clear(); // مسح حقل الإدخال
+        messages.add(_messageController.text);
+        _messageController.clear();
       });
     }
   }
@@ -53,60 +54,71 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           IconButton(
             icon: const Icon(Icons.videocam),
             onPressed: () {
-              // حدث لمكالمة الفيديو
+              print('Video call pressed');
             },
           ),
           IconButton(
             icon: const Icon(Icons.call),
             onPressed: () {
-              // حدث للمكالمة الصوتية
+              print('Voice call pressed');
             },
           ),
-          IconButton(
+          PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert),
-            onPressed: () {
-              // المزيد من الخيارات
+            onSelected: _handleMenuSelection,
+            itemBuilder: (BuildContext context) {
+              return [
+                const PopupMenuItem(
+                  value: 'Settings',
+                  child: Text('Settings'),
+                ),
+              ];
             },
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: messages.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(messages[index]), // عرض الرسالة
-                    subtitle: Text('Just now'), // الوقت الافتراضي
-                  );
-                },
-              ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: messages.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(messages[index]),
+                );
+              },
             ),
-            Row(
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: _messageController,
-                    decoration: InputDecoration(
-                      hintText: 'Type a message...',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+                    decoration: const InputDecoration(
+                      hintText: 'Enter message',
+                      border: OutlineInputBorder(),
                     ),
                   ),
                 ),
                 IconButton(
                   icon: const Icon(Icons.send),
-                  onPressed: _sendMessage, // إرسال الرسالة
+                  onPressed: _sendMessage,
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
+  }
+
+  void _handleMenuSelection(String value) {
+    switch (value) {
+      case 'Settings':
+        print('Settings Selected');
+        break;
+    }
   }
 }

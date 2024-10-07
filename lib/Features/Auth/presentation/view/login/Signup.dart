@@ -245,22 +245,24 @@ class _SignupPageState extends State<SignupPage> {
                           isSaved = !isSaved;
                         });
                       },
-                      child: Text(
+                      child: const Text(
                         "Saved",
                         style: TextStyle(color: Colors.white),
                       ),
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 TextButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Login()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Login()));
                     },
-                    child: Text("Already Have an account?")),
+                    child: const Text("Already Have an account?")),
               ],
             ),
           ),
@@ -269,7 +271,7 @@ class _SignupPageState extends State<SignupPage> {
       floatingActionButton: BlocConsumer<SignupCubit, Signupstates>(
         listener: (context, state) {
           if (state is SignupCubitsuccess) {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const AuthStateHandler()),
             );
@@ -279,9 +281,9 @@ class _SignupPageState extends State<SignupPage> {
           }
         },
         builder: (context, state) {
-          if (state is SignupCubitloading)
-            return CircularProgressIndicator();
-          else {
+          if (state is SignupCubitloading) {
+            return const CircularProgressIndicator();
+          } else {
             return TextButton(
                 onPressed: () {
                   if (key.currentState!.validate()) {

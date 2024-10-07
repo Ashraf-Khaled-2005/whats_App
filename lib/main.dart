@@ -6,7 +6,7 @@ import 'package:our_whatsapp/Features/Auth/presentation/manager/cubit/Shared_blo
 import 'package:our_whatsapp/Features/Auth/presentation/manager/cubit/SignUpCubit/SignupCubit.dart';
 import 'package:our_whatsapp/Features/Auth/presentation/view/login/Signup.dart';
 import 'package:our_whatsapp/Features/Chats/data/Repo/Chat_Repo.dart';
-import 'package:our_whatsapp/Features/Chats/presentation/manager/cubit/get_user_data_cubit.dart';
+import 'package:our_whatsapp/Features/Chats/presentation/manager/GetUserDataCubit/get_user_data_cubit.dart';
 import 'package:our_whatsapp/Features/splash/presentation/view/welcome_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Features/Auth/presentation/manager/cubit/Shared_bloc/Shared_cubit_state.dart';
@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
                   context
                       .read<LoginCubit>()
                       .Login(email: state.email, pass: state.pass);
-                  return const AuthStateHandler(); // Temporary empty widget, as listener will handle navigation
+                  return const AuthStateHandler();
                 }
                 return const WelcomePage();
               },
