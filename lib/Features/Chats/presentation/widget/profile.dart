@@ -8,7 +8,7 @@ import 'package:our_whatsapp/Features/Chats/presentation/manager/GetUserDataCubi
 import 'package:our_whatsapp/Features/Chats/presentation/manager/cubit/edit_profile_cubit.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../core/service/imagepick.dart';
+import '../../../../core/helper/imagepick.dart';
 
 class ProfileScreen extends StatefulWidget {
   final UserData user;
@@ -51,11 +51,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   right: 0,
                   child: GestureDetector(
                     onTap: () async {
-                      var uuid = Uuid().v4();
-                      image = await PickImageGallery();
+                      var uuid = const Uuid().v4();
+                      image = await pickImageGallery();
                       if (image == null) {}
                       imagepath =
-                          await Getimgaeurl(uuid, image!, 'UsersImages');
+                          await getImgaeUrl(uuid, image!, 'UsersImages');
                       setState(() {});
                     },
                     child: Container(
@@ -78,8 +78,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               controller: _nameController,
               decoration: InputDecoration(
                 labelText: widget.user.username,
-                prefixIcon: Icon(Icons.person),
-                border: OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.person),
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 20),
@@ -88,8 +88,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 labelText: widget.user.phone,
-                prefixIcon: Icon(Icons.phone),
-                border: OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.phone),
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 20),

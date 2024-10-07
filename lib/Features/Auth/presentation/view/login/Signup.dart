@@ -13,7 +13,7 @@ import 'package:our_whatsapp/core/service/cacheHelper.dart';
 import 'package:our_whatsapp/Features/Auth/presentation/view/login.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../../core/service/imagepick.dart';
+import '../../../../../core/helper/imagepick.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -137,8 +137,8 @@ class _SignupPageState extends State<SignupPage> {
                       child: IconButton(
                           onPressed: () async {
                             final uuid = const Uuid().v4();
-                            imagefile = await PickImageGallery();
-                            image = await Getimgaeurl(
+                            imagefile = await pickImageGallery();
+                            image = await getImgaeUrl(
                                 uuid, imagefile!, 'UsersImages');
                           },
                           icon: const Icon(

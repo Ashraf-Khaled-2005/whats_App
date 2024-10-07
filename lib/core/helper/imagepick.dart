@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -19,7 +20,7 @@ class ImagePickerWidget extends StatelessWidget {
       return CircleAvatar(
         radius: 32,
         backgroundImage: curriamge == null
-            ? AssetImage('images/splash_white.png')
+            ? const AssetImage('images/splash_white.png')
             : NetworkImage(curriamge!),
       );
     } else {
@@ -31,7 +32,7 @@ class ImagePickerWidget extends StatelessWidget {
   }
 }
 
-Future<File?> PickImageGallery() async {
+Future<File?> pickImageGallery() async {
   var image = await ImagePicker().pickImage(source: ImageSource.gallery);
 
   if (image != null) {
@@ -41,9 +42,17 @@ Future<File?> PickImageGallery() async {
   }
 }
 
-Future<String> Getimgaeurl(String uuid, File image, String child) async {
-  final rref = FirebaseStorage.instance.ref().child(child).child(uuid + 'jpg');
-  await rref.putFile(image!);
+Future<String> getImgaeUrl(String uuid, File image, String child) async {
+  final rref = FirebaseStorage.instance.ref().child(child).child('${uuid}jpg');
+  await rref.putFile(image);
   final imageurl = await rref.getDownloadURL();
   return imageurl;
+}
+
+Future<void> openCamera() async {
+  final XFile? image =
+      await ImagePicker().pickImage(source: ImageSource.camera);
+  if (image != null) {
+    log('Image Path: ${image.path}');
+  }
 }
