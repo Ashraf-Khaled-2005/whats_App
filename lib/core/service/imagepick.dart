@@ -6,17 +6,21 @@ import 'package:image_picker/image_picker.dart';
 
 class ImagePickerWidget extends StatelessWidget {
   final File? image;
+  final String? curriamge;
   const ImagePickerWidget({
     super.key,
     this.image,
+    this.curriamge,
   });
 
   @override
   Widget build(BuildContext context) {
     if (image == null) {
-      return const CircleAvatar(
+      return CircleAvatar(
         radius: 32,
-        backgroundImage: AssetImage('images/splash_white.png'),
+        backgroundImage: curriamge == null
+            ? AssetImage('images/splash_white.png')
+            : NetworkImage(curriamge!),
       );
     } else {
       return CircleAvatar(

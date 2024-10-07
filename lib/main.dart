@@ -10,6 +10,7 @@ import 'package:our_whatsapp/Features/Chats/presentation/manager/GetUserDataCubi
 import 'package:our_whatsapp/Features/splash/presentation/view/welcome_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Features/Auth/presentation/manager/cubit/Shared_bloc/Shared_cubit_state.dart';
+import 'Features/Chats/presentation/manager/cubit/edit_profile_cubit.dart';
 import 'core/service/auth_state.dart';
 import 'core/service/bloc_ob.dart';
 import 'core/service/cacheHelper.dart';
@@ -43,7 +44,8 @@ class MyApp extends StatelessWidget {
           ),
         ),
         BlocProvider(create: (_) => SharedCubit()..getShared()),
-        BlocProvider(create: (_) => GetUserDataCubit(ChatRepoImpl()))
+        BlocProvider(create: (_) => GetUserDataCubit(ChatRepoImpl())),
+        BlocProvider(create: (_) => EditProfileCubit(ChatRepoImpl()))
       ],
       child: Builder(
         builder: (context) {

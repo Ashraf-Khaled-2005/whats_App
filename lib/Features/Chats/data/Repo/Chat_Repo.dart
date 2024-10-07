@@ -29,4 +29,20 @@ class ChatRepoImpl extends ChatRepo {
       return Left(MyExcepation(message: e.toString()));
     }
   }
+
+  @override
+  Future<Either<MyExcepation, void>> editProfile(
+      {required String username,
+      required String phone,
+      required String image}) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({'image': image, 'phone': phone, 'username': username});
+      return right(unit);
+    } on Exception catch (e) {
+      return left(MyExcepation(message: e.toString()));
+    }
+  }
 }
