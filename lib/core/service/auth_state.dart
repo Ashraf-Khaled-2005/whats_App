@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:our_whatsapp/Features/Chats/presentation/manager/GetUserDataCubit/get_user_data_cubit.dart';
 import 'package:our_whatsapp/Features/Auth/presentation/view/login/Signup.dart';
 import 'package:our_whatsapp/Features/Auth/presentation/view/login/verification_page.dart';
+import 'package:our_whatsapp/Root.dart';
 import '../../Features/Chats/presentation/view/Chat.dart';
 
 class AuthStateHandler extends StatelessWidget {
@@ -27,7 +28,7 @@ class AuthStateHandler extends StatelessWidget {
           return BlocBuilder<GetUserDataCubit, GetUserDataState>(
             builder: (context, state) {
               if (state is GetUserDatasuccess) {
-                return ChatScreen(
+                return RootPage(
                   user: state.user,
                 );
               } else if (state is GetUserDataloading) {

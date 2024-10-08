@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:our_whatsapp/Features/Chats/presentation/view/NewChat.dart';
 import '../../../../core/helper/Fun.dart';
 import 'package:our_whatsapp/Features/Chats/data/model/ChatItemData.dart';
 
 import '../../../splash/presentation/view/widget/ChatDetailScreen.dart';
 import '../../data/model/userData.dart';
-import '../widget/ChatItem.dart';
-import '../widget/profile.dart';
+import 'widget/ChatItem.dart';
+import 'widget/profile.dart';
 
 class ChatScreen extends StatefulWidget {
   final UserData user;
@@ -28,6 +29,16 @@ class _ChatScreenState extends State<ChatScreen> {
     // }).toList();
 
     return Scaffold(
+      floatingActionButton: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MyWidget(),
+              ),
+            );
+          },
+          icon: Icon(Icons.add)),
       appBar: AppBar(
         title: _isSearching
             ? TextField(
@@ -86,7 +97,7 @@ class _ChatScreenState extends State<ChatScreen> {
       body: ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) {
-          return ChatItem(
+          return ListTileItem(
             name: "eslam",
             message: "message",
             time: DateTime.now().toString(),

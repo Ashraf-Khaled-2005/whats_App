@@ -17,6 +17,7 @@ class ChatRepoImpl extends ChatRepo {
       if (result.exists) {
         Map<String, dynamic> map = result.data()!;
         var userData = UserData(
+            id: map['id'],
             image: map['image'],
             username: map['username'],
             email: map['email'],

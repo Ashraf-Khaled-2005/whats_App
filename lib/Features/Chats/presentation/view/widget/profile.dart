@@ -8,7 +8,7 @@ import 'package:our_whatsapp/Features/Chats/presentation/manager/GetUserDataCubi
 import 'package:our_whatsapp/Features/Chats/presentation/manager/cubit/edit_profile_cubit.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../core/helper/imagepick.dart';
+import '../../../../../core/helper/imagepick.dart';
 
 class ProfileScreen extends StatefulWidget {
   final UserData user;

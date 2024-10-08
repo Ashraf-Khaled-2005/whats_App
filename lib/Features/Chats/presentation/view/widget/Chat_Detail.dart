@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../data/model/ChatItemData.dart';
+import '../../../data/model/ChatItemData.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final ChatItemDataModel chatItem;

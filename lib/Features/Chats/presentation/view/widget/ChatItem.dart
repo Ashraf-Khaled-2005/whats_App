@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ChatItem extends StatelessWidget {
+class ListTileItem extends StatelessWidget {
   final String name;
   final String message;
   final String time;
@@ -8,7 +8,7 @@ class ChatItem extends StatelessWidget {
   final VoidCallback onTapProfilePicture;
   final VoidCallback onTapChatItem;
 
-  const ChatItem({
+  const ListTileItem({
     Key? key,
     required this.name,
     required this.message,
@@ -29,6 +29,7 @@ class ChatItem extends StatelessWidget {
       ),
       title: Text(name),
       subtitle: Text(message),
+      subtitleTextStyle: TextStyle(letterSpacing: 3),
       trailing: Text(time),
       onTap: onTapChatItem,
     );
