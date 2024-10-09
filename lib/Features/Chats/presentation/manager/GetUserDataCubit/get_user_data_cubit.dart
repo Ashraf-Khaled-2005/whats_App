@@ -7,7 +7,7 @@ part 'get_user_data_state.dart';
 
 class GetUserDataCubit extends Cubit<GetUserDataState> {
   final ChatRepo Repo;
-  late UserData userData;
+  late MyUserData userData;
   GetUserDataCubit(this.Repo) : super(GetUserDataInitial());
 
   void getData() async {

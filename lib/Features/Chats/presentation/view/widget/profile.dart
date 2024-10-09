@@ -1,17 +1,19 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:our_whatsapp/Features/Chats/data/model/userData.dart';
 import 'package:our_whatsapp/Features/Chats/presentation/manager/GetUserDataCubit/get_user_data_cubit.dart';
 import 'package:our_whatsapp/Features/Chats/presentation/manager/cubit/edit_profile_cubit.dart';
+import 'package:our_whatsapp/core/service/auth_state.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../core/helper/imagepick.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final UserData user;
+  final MyUserData user;
 
   const ProfileScreen({super.key, required this.user});
   @override
@@ -113,22 +115,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 if (state is EditProfileLoading) {
                   return const CircularProgressIndicator();
                 }
-                return ElevatedButton(
-                  onPressed: () {
-                    context.read<EditProfileCubit>().updateProfile(
-                        username: _nameController.text.isEmpty
-                            ? widget.user.username
-                            : _nameController.text,
-                        phone: _phoneController.text.isEmpty
-                            ? widget.user.phone
-                            : _phoneController.text,
-                        image: imagepath ?? widget.user.image);
-                    context.read<GetUserDataCubit>().getData();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                  ),
-                  child: const Text('Save'),
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        context.read<EditProfileCubit>().updateProfile(
+                            username: _nameController.text.isEmpty
+                                ? widget.user.username
+                                : _nameController.text,
+                            phone: _phoneController.text.isEmpty
+                                ? widget.user.phone
+                                : _phoneController.text,
+                            image: imagepath ?? widget.user.image);
+                        context.read<GetUserDataCubit>().getData();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                      ),
+                      child: const Text('Save'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AuthStateHandler()),
+                          (Route<dynamic> route) =>
+                              false, // This will remove all previous routes
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+                      ),
+                      child: const Text('Logout'),
+                    )
+                  ],
                 );
               },
             ),

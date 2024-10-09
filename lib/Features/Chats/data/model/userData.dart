@@ -1,8 +1,8 @@
-class UserData {
+class MyUserData {
   final String image, username, email, phone, id;
   List<dynamic>? ids;
 
-  UserData(
+  MyUserData(
       {required this.image,
       required this.username,
       required this.email,

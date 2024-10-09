@@ -7,7 +7,7 @@ import 'package:our_whatsapp/Features/Chats/presentation/view/Chat.dart';
 import 'Features/status/status.dart';
 
 class RootPage extends StatefulWidget {
-  final UserData user;
+  final MyUserData user;
   const RootPage({super.key, required this.user});
 
   @override

@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
-
 import 'widget/ChatItem.dart';
 
 class MyWidget extends StatelessWidget {
@@ -33,7 +31,7 @@ class MyWidget extends StatelessWidget {
           }
 
           return ListView.separated(
-            separatorBuilder: (context, index) => Divider(
+            separatorBuilder: (context, index) => const Divider(
               thickness: 2,
               color: Colors.white,
             ),

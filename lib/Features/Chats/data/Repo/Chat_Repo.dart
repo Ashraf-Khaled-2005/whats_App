@@ -9,7 +9,7 @@ import '../../domain/Repo/Chat_Repo.dart';
 
 class ChatRepoImpl extends ChatRepo {
   @override
-  Future<Either<MyExcepation, UserData>> getData() async {
+  Future<Either<MyExcepation, MyUserData>> getData() async {
     try {
       var result = await FirebaseFirestore.instance
           .collection('Users')
@@ -18,8 +18,8 @@ class ChatRepoImpl extends ChatRepo {
 
       if (result.exists) {
         Map<String, dynamic> map = result.data()!;
-        var userData = UserData(
-            ids: map['chatsid'],
+        var userData = MyUserData(
+            ids: map['ids'],
             id: map['id'],
             image: map['image'],
             username: map['username'],

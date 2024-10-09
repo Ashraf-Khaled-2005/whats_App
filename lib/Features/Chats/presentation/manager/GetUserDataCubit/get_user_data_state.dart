@@ -14,7 +14,7 @@ final class GetUserDatafailure extends GetUserDataState {
 }
 
 final class GetUserDatasuccess extends GetUserDataState {
-  final UserData user;
+  final MyUserData user;
 
   GetUserDatasuccess({required this.user});
 }

@@ -1,26 +1,52 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:our_whatsapp/Features/Chats/data/model/userData.dart';
+import 'package:our_whatsapp/Features/Chats/presentation/manager/GetUserDataCubit/get_user_data_cubit.dart';
+import 'package:our_whatsapp/Features/Chats/presentation/view/widget/charbubble.dart';
+import 'package:our_whatsapp/core/helper/Fun.dart';
+import 'package:our_whatsapp/core/service/auth_state.dart';
 
 import '../../../data/model/ChatItemData.dart';
 
 class ChatDetailScreen extends StatefulWidget {
-  final ChatItemDataModel chatItem;
-
-  const ChatDetailScreen({Key? key, required this.chatItem}) : super(key: key);
+  final MyUserData user;
+  const ChatDetailScreen({super.key, required this.user});
 
   @override
   _ChatDetailScreenState createState() => _ChatDetailScreenState();
 }
 
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
+  late MyUserData ownuser;
   final TextEditingController _messageController = TextEditingController();
-  List<String> messages = [];
-
-  void _sendMessage() {
-    if (_messageController.text.isNotEmpty) {
-      setState(() {
-        messages.add(_messageController.text);
-        _messageController.clear();
+  @override
+  void initState() {
+    ownuser = context.read<GetUserDataCubit>().userData;
+    super.initState();
+    if (ownuser.ids != null && ownuser.ids!.contains(widget.user.id)) {
+    } else {
+      FirebaseFirestore.instance
+          .collection('Chats')
+          .doc(getRoomId(id1: widget.user.id, id2: ownuser.id))
+          .set({
+        'roomid': getRoomId(
+          id1: widget.user.id,
+          id2: ownuser.id,
+        ),
+        'participants': [widget.user.id, ownuser.id],
       });
+      FirebaseFirestore.instance.collection('Users').doc(ownuser.id).update({
+        'ids': FieldValue.arrayUnion([widget.user.id])
+      });
+
+      FirebaseFirestore.instance
+          .collection('Users')
+          .doc(widget.user.id)
+          .update({
+        'ids': FieldValue.arrayUnion([ownuser.id])
+      });
+      context.read<GetUserDataCubit>().userData.ids!.add(widget.user.id);
     }
   }
 
@@ -33,16 +59,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           child: Row(
             children: [
               CircleAvatar(
-                backgroundImage: NetworkImage(widget.chatItem.imageUrl),
+                backgroundImage: NetworkImage(widget.user.image),
                 radius: 20,
               ),
               const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.chatItem.name,
+                  Text(widget.user.username,
                       style: const TextStyle(fontSize: 16)),
-                  const Text("online",
+                  const Text('Last seen today',
                       style: TextStyle(fontSize: 12, color: Colors.white70)),
                 ],
               ),
@@ -81,10 +107,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: messages.length,
+              itemCount: 10,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(messages[index]),
+                return const ListTile(
+                  title: ChatBubble(message: "hello"),
                 );
               },
             ),
@@ -104,7 +130,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.send),
-                  onPressed: _sendMessage,
+                  onPressed: () {},
                 ),
               ],
             ),

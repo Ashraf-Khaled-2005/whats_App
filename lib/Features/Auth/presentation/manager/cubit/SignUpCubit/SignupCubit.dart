@@ -21,7 +21,7 @@ class SignupCubit extends Cubit<Signupstates> {
           .collection('Users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .set({
-        'chatsid': [],
+        'ids': [],
         'email': user.email,
         'phone': user.phone,
         'pass': user.pass,
