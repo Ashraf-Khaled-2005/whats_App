@@ -289,6 +289,7 @@ class _SignupPageState extends State<SignupPage> {
                   if (key.currentState!.validate()) {
                     if (imagefile != null) {
                       ReguserModel user = ReguserModel(
+                          Chatsids: [],
                           phone: countryCodeController.text +
                               numberController.text,
                           id: '0',

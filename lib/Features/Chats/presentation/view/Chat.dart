@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:our_whatsapp/Features/Chats/presentation/view/NewChat.dart';
+import 'package:our_whatsapp/addcontact/addcontact.dart';
 import '../../../../core/helper/Fun.dart';
 import 'package:our_whatsapp/Features/Chats/data/model/ChatItemData.dart';
 
@@ -34,7 +35,7 @@ class _ChatScreenState extends State<ChatScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => MyWidget(),
+                builder: (context) => Addcontact(),
               ),
             );
           },

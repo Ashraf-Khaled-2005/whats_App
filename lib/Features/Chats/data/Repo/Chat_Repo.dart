@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +19,7 @@ class ChatRepoImpl extends ChatRepo {
       if (result.exists) {
         Map<String, dynamic> map = result.data()!;
         var userData = UserData(
+            ids: map['chatsid'],
             id: map['id'],
             image: map['image'],
             username: map['username'],
@@ -27,6 +30,7 @@ class ChatRepoImpl extends ChatRepo {
         return Left(MyExcepation(message: 'User not found'));
       }
     } catch (e) {
+      log(e.toString());
       return Left(MyExcepation(message: e.toString()));
     }
   }
