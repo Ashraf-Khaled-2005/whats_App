@@ -8,7 +8,7 @@ String getRoomId({required String id1, required String id2}) {
 }
 
 String dateFormat({required DateTime time}) {
-  String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(time);
+  String formattedDate = DateFormat('yyyy-MM-dd HH:mm').format(time);
   return formattedDate;
 }
 

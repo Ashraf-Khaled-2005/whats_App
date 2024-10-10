@@ -28,7 +28,6 @@ class _ChatScreenState extends State<ChatScreen> {
     DocumentSnapshot currentUserDoc =
         await FirebaseFirestore.instance.collection('Users').doc(userId).get();
 
-    // Get the list of user IDs the current user is chatting with
     List<dynamic>? messagingUserIds = currentUserDoc['ids'];
 
     if (messagingUserIds == null || messagingUserIds.isEmpty) {
