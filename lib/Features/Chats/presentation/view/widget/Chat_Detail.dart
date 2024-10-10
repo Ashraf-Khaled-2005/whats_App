@@ -21,6 +21,7 @@ class ChatDetailScreen extends StatefulWidget {
 
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
   late MyUserData ownuser;
+  ScrollController controller = ScrollController();
   final TextEditingController _messageController = TextEditingController();
   @override
   void initState() {
@@ -132,6 +133,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   .collection('Chats')
                   .doc(getRoomId(id1: widget.user.id, id2: ownuser.id))
                   .collection('Messages')
+                  .orderBy('time', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -154,6 +156,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 }
                 return Expanded(
                   child: ListView.builder(
+                    controller: controller,
+                    reverse: true,
                     itemCount: allMessages.length,
                     itemBuilder: (context, index) {
                       return allMessages[index].sender == ownuser.id
@@ -187,6 +191,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   icon: const Icon(Icons.send),
                   onPressed: () {
                     _sendMessage();
+                    controller.animateTo(0,
+                        duration: Duration(milliseconds: 700),
+                        curve: Curves.bounceInOut);
                   },
                 ),
               ],
