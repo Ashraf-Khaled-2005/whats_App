@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:our_whatsapp/Features/Auth/presentation/manager/cubit/Login/login_cubit.dart';
 import 'package:our_whatsapp/Features/Chats/presentation/manager/GetUserDataCubit/get_user_data_cubit.dart';
 import 'package:our_whatsapp/Features/Auth/presentation/view/login/Signup.dart';
 import 'package:our_whatsapp/Features/Auth/presentation/view/login/verification_page.dart';
@@ -39,7 +40,18 @@ class AuthStateHandler extends StatelessWidget {
             },
           );
         } else {
-          return const SignupPage();
+          return BlocListener<LoginCubit, LoginState>(
+            listener: (context, state) {
+              if (state is LoginError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.err),
+                  ),
+                );
+              }
+            },
+            child: const SignupPage(),
+          );
         }
       },
     );

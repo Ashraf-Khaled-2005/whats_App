@@ -42,6 +42,16 @@ Future<File?> pickImageGallery() async {
   }
 }
 
+Future<File?> pickVideoGallery() async {
+  var video = await ImagePicker().pickVideo(source: ImageSource.gallery);
+
+  if (video != null) {
+    return File(video.path);
+  } else {
+    return null;
+  }
+}
+
 Future<String> getImgaeUrl(String uuid, File image, String child) async {
   final rref = FirebaseStorage.instance.ref().child(child).child('${uuid}jpg');
   await rref.putFile(image);

@@ -4,7 +4,7 @@ import 'package:our_whatsapp/Features/Chats/data/model/userData.dart';
 import 'package:our_whatsapp/Features/Chats/presentation/manager/GetUserDataCubit/get_user_data_cubit.dart';
 import 'package:our_whatsapp/Features/Chats/presentation/view/Chat.dart';
 
-import 'Features/status/status.dart';
+import 'Features/statue/presentation/view/status.dart';
 
 class RootPage extends StatefulWidget {
   final MyUserData user;

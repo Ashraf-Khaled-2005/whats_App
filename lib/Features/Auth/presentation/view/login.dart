@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:our_whatsapp/Features/Auth/presentation/view/login/Signup.dart';
 import 'package:our_whatsapp/core/service/auth_state.dart';
 
+import '../../../../core/service/cacheHelper.dart';
 import '../manager/cubit/Login/login_cubit.dart';
 import 'login/custom_widget/custom_text_field.dart';
 
@@ -18,6 +19,7 @@ class _LoginState extends State<Login> {
   late TextEditingController pass;
   late GlobalKey<FormState> key;
   late AutovalidateMode mode;
+  bool isSaved = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -82,7 +84,40 @@ class _LoginState extends State<Login> {
                 ),
               ),
               const SizedBox(
-                height: 100,
+                height: 50,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        child: Checkbox.adaptive(
+                          checkColor: Colors.white,
+                          key: ValueKey<bool>(
+                              isSaved), // Unique key for animation
+                          activeColor: const Color(0xFF00A884),
+                          value: isSaved,
+                          onChanged: (value) {
+                            setState(() {
+                              isSaved = value ?? false;
+                            });
+                          },
+                        )),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          isSaved = !isSaved;
+                        });
+                      },
+                      child: const Text(
+                        "Saved",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
               ),
               SizedBox(
                 height: 42,
@@ -113,6 +148,14 @@ class _LoginState extends State<Login> {
                             context
                                 .read<LoginCubit>()
                                 .Login(email: email.text, pass: pass.text);
+                            if (isSaved) {
+                              CacheHelper.saveData(
+                                  key: "ISSAVED", value: isSaved);
+                              CacheHelper.saveData(
+                                  key: "EMAIL", value: email.text);
+                              CacheHelper.saveData(
+                                  key: "PASS", value: pass.text);
+                            }
                           } else {
                             setState(() {
                               mode = AutovalidateMode.always;

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -48,6 +50,7 @@ class AuthrepoImpl extends AuthRepo {
         return left(
             MyExcepation(message: 'Wrong password provided for that user.'));
       } else {
+        log(e.toString());
         return left(MyExcepation(message: e.toString()));
       }
     }
