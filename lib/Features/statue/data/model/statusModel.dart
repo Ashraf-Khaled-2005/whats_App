@@ -23,6 +23,20 @@ class StatueModel {
         username: json['username']);
   }
 
+  Map<String, dynamic> toJson(StatueModel model) {
+    return {
+      'id': model.id,
+      'caption': model.caption,
+      'userid': model.userid,
+      'imageurl': model.imageurl,
+      'videourl': model.videourl,
+      'date': model.time,
+      'views': model.views,
+      'userimage': model.userimage,
+      'username': model.username
+    };
+  }
+
   StatueModel(
       {required this.id,
       required this.time,

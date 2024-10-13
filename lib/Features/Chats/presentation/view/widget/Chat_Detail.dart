@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,6 +55,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     }
   }
 
+  List<MessageModel>? allMessages;
   void _sendMessage() {
     if (_messageController.text.isNotEmpty) {
       var uuid = Uuid().v4();
@@ -155,23 +158,26 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       time: (message['time'] as Timestamp).toDate()));
                 }
                 return Expanded(
-                  child: ListView.builder(
-                    controller: controller,
-                    reverse: true,
-                    itemCount: allMessages.length,
-                    itemBuilder: (context, index) {
-                      return allMessages[index].sender == ownuser.id
-                          ? ChatBubble(
-                              message: allMessages[index],
-                              OwnUser: ownuser,
-                              user2: widget.user,
-                            )
-                          : ChatRecivedBubble(
-                              message: allMessages[index],
-                              OwnUser: ownuser,
-                              user2: widget.user);
-                    },
-                  ),
+                  child: messages.isNotEmpty
+                      ? ListView.builder(
+                          controller: controller,
+                          reverse: true,
+                          itemCount: allMessages.length,
+                          itemBuilder: (context, index) {
+                            return allMessages[index].sender == ownuser.id
+                                ? ChatBubble(
+                                    message: allMessages[index],
+                                    OwnUser: ownuser,
+                                    user2: widget.user,
+                                  )
+                                : ChatRecivedBubble(
+                                    message: allMessages[index],
+                                    OwnUser: ownuser,
+                                    user2: widget.user,
+                                  );
+                          },
+                        )
+                      : const Center(child: Text('No messages yet.')),
                 );
               }),
           Padding(
@@ -191,9 +197,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   icon: const Icon(Icons.send),
                   onPressed: () {
                     _sendMessage();
-                    controller.animateTo(0,
-                        duration: Duration(milliseconds: 700),
-                        curve: Curves.bounceInOut);
+
+                    if (allMessages == null) {
+                      log("eslam");
+                    } else {
+                      controller.animateTo(0,
+                          duration: Duration(milliseconds: 700),
+                          curve: Curves.bounceInOut);
+                    }
                   },
                 ),
               ],

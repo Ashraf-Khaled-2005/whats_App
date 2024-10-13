@@ -23,7 +23,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final ImagePicker _picker = ImagePicker();
   bool _isSearching = false;
   late Future<List<MyUserData>> futureChatUsers;
-
+  late List<MyUserData> UsersChats;
   Future<List<MyUserData>> getUserChats(String userId) async {
     DocumentSnapshot currentUserDoc =
         await FirebaseFirestore.instance.collection('Users').doc(userId).get();
@@ -71,10 +71,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // List<ChatItemData> filteredChatItems = chatItems.where((item) {
-    //   return item.name.toLowerCase().contains(searchQuery.toLowerCase());
-    // }).toList();
-
     return Scaffold(
       floatingActionButton: IconButton(
           onPressed: () async {
@@ -154,7 +150,7 @@ class _ChatScreenState extends State<ChatScreen> {
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return Center(child: Text('No chats found.'));
               }
-              List<MyUserData> UsersChats = snapshot.data!;
+              UsersChats = snapshot.data!;
 
               return ListView.builder(
                 itemCount: UsersChats.length,

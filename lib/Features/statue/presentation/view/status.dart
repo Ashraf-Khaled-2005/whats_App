@@ -19,7 +19,6 @@ class _statusState extends State<status> {
   List<StatueModel>? curstories;
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
     return Scaffold(
       floatingActionButton: IconButton(
           onPressed: () async {
@@ -137,6 +136,14 @@ class _statusState extends State<status> {
                   } else {
                     userStoriesMap[data['userid']] = [story];
                   }
+                } else if (myuser.id == data['userid']) {
+                  StatueModel story = StatueModel.formJson(data);
+
+                  if (userStoriesMap.containsKey(myuser.id)) {
+                    userStoriesMap[data['userid']]!.add(story);
+                  } else {
+                    userStoriesMap[data['userid']] = [story];
+                  }
                 }
               }
 
@@ -166,7 +173,7 @@ class _statusState extends State<status> {
                       },
                       title: Text(firstStory.username),
                       subtitle: userId == myuser.id
-                          ? const Text("My")
+                          ? const Text("(YOU)")
                           : Text(
                               'Tap to view all ${userStories.length} stories'),
                       leading: AdvancedAvatar(
