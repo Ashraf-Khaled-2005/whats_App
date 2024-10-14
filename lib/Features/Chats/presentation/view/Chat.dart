@@ -23,7 +23,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final ImagePicker _picker = ImagePicker();
   bool _isSearching = false;
   late Future<List<MyUserData>> futureChatUsers;
-  late List<MyUserData> UsersChats;
+
   Future<List<MyUserData>> getUserChats(String userId) async {
     DocumentSnapshot currentUserDoc =
         await FirebaseFirestore.instance.collection('Users').doc(userId).get();
@@ -82,7 +82,7 @@ class _ChatScreenState extends State<ChatScreen> {
             );
             _refreshChatList();
           },
-          icon: Icon(Icons.add)),
+          icon: const Icon(Icons.add)),
       appBar: AppBar(
         title: _isSearching
             ? TextField(
@@ -140,39 +140,64 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: _refreshChatList,
-        child: FutureBuilder<List<MyUserData>>(
-            future: getUserChats(context.read<GetUserDataCubit>().userData.id),
+        child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            future: FirebaseFirestore.instance
+                .collection('Chats')
+                .where('participants', arrayContains: widget.user.id)
+                .get(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(child: Text('No chats found.'));
+              } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return const Center(child: const Text('No chats found.'));
               }
-              UsersChats = snapshot.data!;
+              var result = snapshot.data!.docs;
 
               return ListView.builder(
-                itemCount: UsersChats.length,
+                itemCount: result.length,
                 itemBuilder: (context, index) {
                   return ListTileItem(
-                    name: UsersChats[index].username,
-                    message: "message",
-                    time: DateTime.now().toString(),
-                    imageUrl: UsersChats[index].image,
+                    name: result[index]['senderid'] == widget.user.id
+                        ? result[index]['receivername']
+                        : result[index]['sendername'],
+                    message: result[index]['lastmessage'] ?? "",
+                    time: (result[index]['time'] as Timestamp)
+                        .toDate()
+                        .toString(),
+                    imageUrl: result[index]['senderid'] == widget.user.id
+                        ? result[index]['receiverimage']
+                        : result[index]['senderimage'],
                     onTapProfilePicture: () {
                       showProfilePictureDialog(
-                          context, UsersChats[index].image);
+                          context,
+                          result[index]['senderid'] == widget.user.id
+                              ? result[index]['receiverimage']
+                              : result[index]['senderimage']);
                     },
-                    onTapChatItem: () {
+                    onTapChatItem: () async {
+                      DocumentSnapshot<Map<String, dynamic>> data;
+                      if (result[index]['senderid'] == widget.user.id) {
+                        data = await FirebaseFirestore.instance
+                            .collection('Users')
+                            .doc(result[index]['receiverid'])
+                            .get();
+                      } else {
+                        data = await FirebaseFirestore.instance
+                            .collection('Users')
+                            .doc(result[index]['senderid'])
+                            .get();
+                      }
+                      var nextuser = data.data();
+                      MyUserData userData = MyUserData.fromJson(nextuser!);
+
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChatDetailScreen(
-                            user: UsersChats[index],
-                          ),
-                        ),
-                      );
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ChatDetailScreen(user: userData),
+                          ));
                     },
                   );
                 },

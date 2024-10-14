@@ -8,10 +8,7 @@ import 'package:our_whatsapp/Features/Chats/data/model/userData.dart';
 import 'package:our_whatsapp/Features/Chats/presentation/manager/GetUserDataCubit/get_user_data_cubit.dart';
 import 'package:our_whatsapp/Features/Chats/presentation/view/widget/charbubble.dart';
 import 'package:our_whatsapp/core/helper/Fun.dart';
-import 'package:our_whatsapp/core/service/auth_state.dart';
 import 'package:uuid/uuid.dart';
-
-import '../../../data/model/ChatItemData.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final MyUserData user;
@@ -39,6 +36,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           id1: widget.user.id,
           id2: ownuser.id,
         ),
+        'senderid': ownuser.id,
+        "senderimage": ownuser.image,
+        'sendername': ownuser.username,
+        "receiverid": widget.user.id,
+        'receiverimage': widget.user.image,
+        'receivername': widget.user.username,
+        'lastmessage': "",
+        "time": DateTime.now(),
         'participants': [widget.user.id, ownuser.id],
       });
       FirebaseFirestore.instance.collection('Users').doc(ownuser.id).update({
@@ -56,20 +61,35 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   }
 
   List<MessageModel>? allMessages;
-  void _sendMessage() {
+  void _sendMessage() async {
     if (_messageController.text.isNotEmpty) {
       var uuid = Uuid().v4();
-      FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('Chats')
           .doc(getRoomId(id1: widget.user.id, id2: ownuser.id))
           .collection('Messages')
           .doc(uuid)
           .set({
         'senderId': ownuser.id,
+        'sendername': ownuser.username,
         'receiverId': widget.user.id,
         'message': _messageController.text,
         'time': DateTime.now(),
         'id': uuid
+      });
+      FirebaseFirestore.instance
+          .collection('Chats')
+          .doc(getRoomId(id1: widget.user.id, id2: ownuser.id))
+          .update({
+        'lastmessage': _messageController.text,
+        "time": DateTime.now(),
+        "receiverid": widget.user.id,
+        'receiverimage': widget.user.image,
+        'receivername': widget.user.username,
+        'senderid': ownuser.id,
+        'sendername': ownuser.username,
+        "senderimage": ownuser.image,
+        'participants': [widget.user.id, ownuser.id],
       });
       _messageController.clear();
     }
