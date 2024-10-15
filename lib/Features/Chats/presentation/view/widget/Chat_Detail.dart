@@ -63,7 +63,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   List<MessageModel>? allMessages;
   void _sendMessage() async {
     if (_messageController.text.isNotEmpty) {
-      var uuid = Uuid().v4();
+      var uuid = const Uuid().v4();
       await FirebaseFirestore.instance
           .collection('Chats')
           .doc(getRoomId(id1: widget.user.id, id2: ownuser.id))
@@ -222,7 +222,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       log("eslam");
                     } else {
                       controller.animateTo(0,
-                          duration: Duration(milliseconds: 700),
+                          duration: const Duration(milliseconds: 700),
                           curve: Curves.bounceInOut);
                     }
                   },
