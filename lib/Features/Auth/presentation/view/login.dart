@@ -111,9 +111,10 @@ class _LoginState extends State<Login> {
                           isSaved = !isSaved;
                         });
                       },
-                      child: const Text(
+                      child: Text(
                         "Saved",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary),
                       ),
                     )
                   ],

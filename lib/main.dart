@@ -1,9 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:our_whatsapp/core/util/service_loc.dart';
-import 'package:our_whatsapp/firebase_options.dart';
-
 import 'Features/Auth/data/auth_Repo/authRepo.dart';
 import 'Features/Auth/presentation/manager/cubit/Login/login_cubit.dart';
 import 'Features/Auth/presentation/manager/cubit/Shared_bloc/Shared_cubit.dart';
@@ -16,6 +15,7 @@ import 'Features/splash/presentation/view/welcome_page.dart';
 import 'core/service/auth_state.dart';
 import 'core/service/bloc_ob.dart';
 import 'core/service/cacheHelper.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,22 +59,40 @@ class MyApp extends StatelessWidget {
       ],
       child: Builder(
         builder: (context) {
-          return MaterialApp(
-            title: 'our Whatsapp',
-            theme: ThemeData.dark(),
-            debugShowCheckedModeBanner: false,
-            home: BlocConsumer<SharedCubit, SharedState>(
-              listener: (context, state) {},
-              builder: (context, state) {
-                if (state is SharedSuccess && state.value == true) {
+          return BlocConsumer<SharedCubit, SharedState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              if (state is SharedSuccess && state.value == true) {
+                if (FirebaseAuth.instance.currentUser != null) {
+                  return MaterialApp(
+                    themeAnimationDuration: const Duration(milliseconds: 700),
+                    theme: state.theme! ? ThemeData.light() : ThemeData.dark(),
+                    debugShowCheckedModeBanner: false,
+                    home: const AuthStateHandler(),
+                  );
+                } else {
                   context
                       .read<LoginCubit>()
                       .Login(email: state.email, pass: state.pass);
-                  return const AuthStateHandler();
                 }
-                return const WelcomePage();
-              },
-            ),
+
+                return MaterialApp(
+                  themeAnimationDuration: const Duration(milliseconds: 700),
+                  theme: state.theme! ? ThemeData.light() : ThemeData.dark(),
+                  debugShowCheckedModeBanner: false,
+                  home: const AuthStateHandler(),
+                );
+              }
+
+              return MaterialApp(
+                themeAnimationDuration: const Duration(seconds: 1),
+                theme: context.read<SharedCubit>().islight
+                    ? ThemeData.light()
+                    : ThemeData.dark(),
+                debugShowCheckedModeBanner: false,
+                home: const WelcomePage(),
+              );
+            },
           );
         },
       ),

@@ -29,7 +29,8 @@ class ListTileItem extends StatelessWidget {
       ),
       title: Text(name),
       subtitle: Text(message),
-      subtitleTextStyle: TextStyle(letterSpacing: 3),
+      subtitleTextStyle: TextStyle(
+          letterSpacing: 3, color: Theme.of(context).colorScheme.secondary),
       trailing: Text(time),
       onTap: onTapChatItem,
     );

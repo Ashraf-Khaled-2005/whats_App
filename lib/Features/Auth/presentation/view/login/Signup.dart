@@ -31,7 +31,7 @@ class _SignupPageState extends State<SignupPage> {
   late TextEditingController pass;
   late String image;
   bool isSaved = false;
-  File? imagefile = null;
+  File? imagefile;
   late GlobalKey<FormState> key;
   late AutovalidateMode autovalidateMode;
 
@@ -245,9 +245,10 @@ class _SignupPageState extends State<SignupPage> {
                           isSaved = !isSaved;
                         });
                       },
-                      child: const Text(
+                      child: Text(
                         "Saved",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary),
                       ),
                     )
                   ],

@@ -1,8 +1,12 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:our_whatsapp/Features/Auth/presentation/manager/cubit/Shared_bloc/Shared_cubit.dart';
 import 'package:our_whatsapp/Features/Chats/presentation/view/widget/addcontact.dart';
 import 'package:our_whatsapp/core/helper/Fun.dart';
+import 'package:our_whatsapp/core/service/auth_state.dart';
+import 'package:our_whatsapp/core/service/cacheHelper.dart';
 import '../../data/model/userData.dart';
 import 'widget/ChatItem.dart';
 import 'widget/Chat_Detail.dart';
@@ -20,18 +24,30 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   String searchQuery = "";
   bool _isSearching = false;
+  late bool islight;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    islight = context.read<SharedCubit>().islight;
+    log(islight.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: IconButton(
         onPressed: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Addcontact(),
-            ),
-          );
+          await CacheHelper.saveData(key: 'islight', value: !islight);
+          islight = !islight;
+          context.read<SharedCubit>().getShared();
+          setState(() {});
+          // await Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => Addcontact(),
+          //   ),
+          // );
         },
         icon: const Icon(Icons.add),
       ),
@@ -128,7 +144,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     ? chat['receivername']
                     : chat['sendername'],
                 message: chat['lastmessage'] ?? "",
-                time: (chat['time'] as Timestamp).toDate().toString(),
+                time: dateFormat(time: (chat['time'] as Timestamp).toDate()),
                 imageUrl: chat['senderid'] == widget.user.id
                     ? chat['receiverimage']
                     : chat['senderimage'],
