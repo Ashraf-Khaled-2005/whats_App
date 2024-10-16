@@ -1,86 +1,80 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
 import 'package:our_whatsapp/Features/Chats/data/model/userData.dart';
-
 import 'ChatItem.dart';
 import 'Chat_Detail.dart';
 
-class Addcontact extends StatelessWidget {
-  Addcontact({super.key});
-  List New = const [
-    {
-      "image":
-          "https://cdn.stocksnap.io/img-thumbs/960w/mountains-clouds_A4Y2Q66EL4.jpg",
-      "name": "New group",
-    },
-    {
-      "image":
-          "https://cdn.create.vista.com/api/media/small/8099055/stock-photo-autumnal-natural-background",
-      "name": "New contact",
-    },
-    {
-      "image":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiYdLgEeNF0dmf4tC2me4zMZpEQBVJwyv6ta6T1qgsrg&s",
-      "name": "New comuntiy",
-    }
-  ];
-  List chats = [
-    {
-      "image":
-          "https://cdn.stocksnap.io/img-thumbs/960w/mountains-clouds_A4Y2Q66EL4.jpg",
-      "name": "(you)"
-    },
-    {
-      "image":
-          "https://cdn.create.vista.com/api/media/small/8099055/stock-photo-autumnal-natural-background",
-      "name": "01256374527"
-    },
-    {
-      "image":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiYdLgEeNF0dmf4tC2me4zMZpEQBVJwyv6ta6T1qgsrg&s",
-      "name": "012e6364263"
-    }
-  ];
+class Addcontact extends StatefulWidget {
+  const Addcontact({super.key});
+
+  @override
+  State<Addcontact> createState() => _AddcontactState();
+}
+
+class _AddcontactState extends State<Addcontact> {
+  String searchQuery = "";
+  bool _isSearching = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: _isSearching
+              ? TextField(
+                  decoration: const InputDecoration(
+                    hintText: 'Search',
+                    border: InputBorder.none,
+                    hintStyle: TextStyle(color: Colors.white54),
+                  ),
+                  style: const TextStyle(color: Colors.white),
+                  onChanged: (value) {
+                    setState(() {
+                      searchQuery = value;
+                    });
+                  },
+                )
+              : const Text("Start Chatting",
+                  style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.green,
+          actions: [
+            if (!_isSearching) ...[
+              IconButton(
+                icon: const Icon(Icons.search),
+                onPressed: () {
+                  setState(() {
+                    _isSearching = true;
+                    searchQuery = "";
+                  });
+                },
+              ),
+            ] else ...[
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  setState(() {
+                    _isSearching = false;
+                    searchQuery = "";
+                  });
+                },
+              ),
+            ],
+          ],
+          leading: null,
+        ),
         body: Column(
           children: [
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.arrow_back),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Select contact',
-                    style: const TextStyle(fontSize: 13),
-                  ),
-                ),
-                const Spacer(),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.search),
-                ),
-              ],
-            ),
             const SizedBox(height: 30),
             StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream:
                   FirebaseFirestore.instance.collection('Users').snapshots(),
               builder: (context, snapshot) {
-                // Handle error state
                 if (snapshot.hasError) {
                   return Center(
                     child: Text('Something went wrong! ${snapshot.error}'),
                   );
                 }
 
-                // Handle loading state
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
@@ -91,7 +85,14 @@ class Addcontact extends StatelessWidget {
                     child: Text('No chats available'),
                   );
                 }
+                var filteredUsers = snapshot.data!.docs.where((doc) {
+                  var chatData = doc.data();
+                  var username = chatData['username']?.toLowerCase() ?? '';
+                  var mobile = chatData['phone']?.toLowerCase() ?? '';
 
+                  return username.contains(searchQuery) ||
+                      mobile.contains(searchQuery); // Filter based on search
+                }).toList();
                 return Expanded(
                   child: Column(
                     children: [
@@ -114,9 +115,9 @@ class Addcontact extends StatelessWidget {
                               color: Colors.grey,
                             ),
                           ),
-                          itemCount: snapshot.data!.docs.length,
+                          itemCount: filteredUsers.length,
                           itemBuilder: (context, index) {
-                            var chatData = snapshot.data!.docs[index].data();
+                            var chatData = filteredUsers[index].data();
                             MyUserData user = MyUserData(
                                 image: chatData['image'],
                                 username: chatData['username'],
