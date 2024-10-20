@@ -8,66 +8,66 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF111B21),
-      body: Column(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
-              child: Image.asset("images/Square.png"),
-            ),
-          ),
-          const SizedBox(
-            height: 40,
-          ),
-          Expanded(
-              child: Column(
-            children: [
-              const Text(
-                "Welcome to WhatsApp",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                child: RichText(
-                    textAlign: TextAlign.center,
-                    text: const TextSpan(
-                        text: "Read our",
-                        style: TextStyle(color: Color(0xFF8696A0), height: 1.5),
-                        children: [
-                          TextSpan(
-                              text: "Privacy Policy. ",
-                              style: TextStyle(color: Color(0xFF53BDEB))),
-                          TextSpan(
-                              text: 'Tap "Agree and continue" to accept the '),
-                          TextSpan(
-                              text: 'Terms of Services',
-                              style: TextStyle(color: Color(0xFF53BDEB)))
-                        ])),
-              ),
-              SizedBox(
-                height: 42,
-                width: MediaQuery.of(context).size.width - 100,
-                child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignupPage(),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF00A884),
-                        foregroundColor: const Color(0xFF111b21),
-                        splashFactory: NoSplash.splashFactory,
-                        elevation: 0,
-                        shadowColor: Colors.transparent),
-                    child: const Text('AGREE AND CONTINUE')),
-              )
-            ],
-          ))
-        ],
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            gradient:
+                LinearGradient(colors: [Color(0xfffaa866), Color(0xffe3bf4a)])),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset("images/wazzup_logo.png"),
+            Column(
+              children: [
+                const Text(
+                  "Welcome to Wazz up!!",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold,color:Colors.white),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                  child: RichText(
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(
+                          text: "Read our ",
+                          style: TextStyle(color: Colors.white, height: 1.5),
+                          children: [
+                            TextSpan(
+                                text: "Privacy Policy. ",
+                                style: TextStyle(color: Colors.blue)),
+                            TextSpan(
+                                text:
+                                    'Tap "Agree and continue" to accept the '),
+                            TextSpan(
+                                text: 'Terms of Services',
+                                style: TextStyle(color: Colors.blue))
+                          ])),
+                ),
+                SizedBox(
+                  height: 42,
+                  width: MediaQuery.of(context).size.width - 100,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignupPage(),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xfff6621b),
+                          foregroundColor: const Color(0xffffffff),
+                          splashFactory: NoSplash.splashFactory,
+                          elevation: 0,
+                          shadowColor: Colors.transparent),
+                      child: const Text('AGREE AND CONTINUE')),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

@@ -21,6 +21,7 @@ class _statusState extends State<status> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xffd95a00),
           onPressed: () async {
             await Navigator.push(
               context,
@@ -38,7 +39,7 @@ class _statusState extends State<status> {
             'Status',
             style: TextStyle(color: Colors.white),
           ),
-          backgroundColor: const Color(0xff075e54)),
+          backgroundColor: Color(0xfff1892e)),
       body: Column(
         children: <Widget>[
           Card(

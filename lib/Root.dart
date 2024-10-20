@@ -42,11 +42,12 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> pages = [ChatScreen(user: widget.user), status()];
+    List<Widget> pages = [ChatScreen(user: widget.user), const status()];
 
     return Scaffold(
       bottomNavigationBar: NavigationBar(
-        animationDuration: Duration(milliseconds: 300),
+        indicatorColor: const Color(0xfff1892e),
+        animationDuration: const Duration(milliseconds: 300),
         selectedIndex: currentpage,
         onDestinationSelected: (value) {
           setState(() {

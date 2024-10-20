@@ -100,222 +100,263 @@ class _SignupPageState extends State<SignupPage> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Form(
-            key: key,
-            autovalidateMode: autovalidateMode,
-            child: Column(
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    text: const TextSpan(
-                      text: 'WhatsApp will need to verify your number. ',
-                      style: TextStyle(color: Colors.grey, height: 1.5),
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Color(0xffe9b336), Color(0xffe3bf4a)])),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Form(
+              key: key,
+              autovalidateMode: autovalidateMode,
+              child: Column(
+                children: [
+                  Container(
+                    child: Stack(
                       children: [
-                        TextSpan(
-                            text: "What's my number",
-                            style: TextStyle(color: Colors.blue))
+                        Image.asset(
+                          "images/whats_app_Signup.png",
+                          height: 300,
+                          width: 300,
+                        ),
+                        Positioned(
+                          left: 146,
+                          bottom: 128,
+                          child: Container(
+                            width: 120, // Adjust width according to your needs
+                            height:
+                                120.0, // Adjust height according to your needs
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors
+                                    .white, // Set your desired border color here
+                                width: 4.0, // Adjust the width of the border
+                              ),
+                            ),
+                            child: CircleAvatar(
+                              radius:
+                                  70, // Set the radius to control the size of the circle
+                              backgroundImage: imagefile != null
+                                  ? FileImage(
+                                      imagefile!) // Display chosen image if available
+                                  : null, // Fallback to a default image if no image is selected
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 160,
+                          left: 184,
+                          child: IconButton(
+                            onPressed: () async {
+                              final uuid = const Uuid().v4();
+                              imagefile = await pickImageGallery();
+                              if (imagefile != null) {
+                                image = await getImgaeUrl(
+                                    uuid, imagefile!, 'UsersImages');
+                              }
+                            },
+                            icon: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                            padding: EdgeInsets.zero,
+                            constraints: BoxConstraints(),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    ImagePickerWidget(
-                      image: imagefile,
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color(0xffd95a00),
+                      border: Border.all(width: 1),
                     ),
-                    Positioned(
-                      bottom: -20,
-                      right: -20,
-                      child: IconButton(
-                          onPressed: () async {
-                            final uuid = const Uuid().v4();
-                            imagefile = await pickImageGallery();
-                            image = await getImgaeUrl(
-                                uuid, imagefile!, 'UsersImages');
+                    padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                    margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: Column(
+                      children: [
+                        CustomTextField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Field is required";
+                            }
                           },
-                          icon: const Icon(
-                            Icons.add,
-                            size: 24,
-                          )),
-                    )
-                  ],
-                ),
-                CustomTextField(
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Field iS requried";
-                    }
-                  },
-                  onSaved: (value) {},
-                  controller: Username,
-                  hintText: "Enter UserName",
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                CustomTextField(
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Field iS requried";
-                    }
-                  },
-                  onSaved: (value) {},
-                  controller: pass,
-                  hintText: "Enter Pass",
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                CustomTextField(
-                  validator: (value) {
-                    if (value!.isEmpty || !(value!.contains('@'))) {
-                      return "Enter a vaild Email";
-                    }
-                  },
-                  onSaved: (value) {},
-                  controller: Email,
-                  hintText: "Email",
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 70,
-                      child: CustomTextField(
-                        validator: (value) {},
-                        onSaved: (value) {},
-                        onTap: showCountryCodePicker,
-                        controller: countryCodeController,
-                        prefixText: '+',
-                        readOnly: true,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: CustomTextField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Field iS requried";
-                        }
-                      },
-                      onSaved: (value) {},
-                      controller: numberController,
-                      hintText: 'phone number',
-                      textAlign: TextAlign.left,
-                      keyboardType: TextInputType.number,
-                    ))
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        child: Checkbox.adaptive(
-                          checkColor: Colors.white,
-                          key: ValueKey<bool>(
-                              isSaved), // Unique key for animation
-                          activeColor: const Color(0xFF00A884),
-                          value: isSaved,
-                          onChanged: (value) {
-                            setState(() {
-                              isSaved = value ?? false;
-                            });
+                          onSaved: (value) {},
+                          controller: Username,
+                          hintText: "Enter UserName",
+                        ),
+                        const SizedBox(height: 10),
+                        CustomTextField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Field is required";
+                            }
                           },
-                        )),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          isSaved = !isSaved;
-                        });
+                          onSaved: (value) {},
+                          controller: pass,
+                          hintText: "Enter Pass",
+                        ),
+                        const SizedBox(height: 10),
+                        CustomTextField(
+                          validator: (value) {
+                            if (value!.isEmpty || !(value!.contains('@'))) {
+                              return "Enter a valid Email";
+                            }
+                          },
+                          onSaved: (value) {},
+                          controller: Email,
+                          hintText: "Email",
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 70,
+                              child: CustomTextField(
+                                validator: (value) {},
+                                onSaved: (value) {},
+                                onTap: showCountryCodePicker,
+                                controller: countryCodeController,
+                                prefixText: '+',
+                                readOnly: true,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: CustomTextField(
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Field is required";
+                                  }
+                                },
+                                onSaved: (value) {},
+                                controller: numberController,
+                                hintText: 'Phone number',
+                                textAlign: TextAlign.left,
+                                keyboardType: TextInputType.number,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 500),
+                              child: Checkbox.adaptive(
+                                checkColor: Colors.white,
+                                key: ValueKey<bool>(isSaved),
+                                activeColor: const Color(0xFF00A884),
+                                value: isSaved,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isSaved = value ?? false;
+                                  });
+                                },
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isSaved = !isSaved;
+                                });
+                              },
+                              child: const Text(
+                                "Saved",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                        // Adding the "NEXT" button here
+                        BlocConsumer<SignupCubit, Signupstates>(
+                          listener: (context, state) {
+                            if (state is SignupCubitsuccess) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AuthStateHandler()),
+                              );
+                            } else if (state is SignupCubitFailure) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(state.err)));
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is SignupCubitloading) {
+                              return const CircularProgressIndicator(); // Show loading indicator
+                            } else {
+                              return ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors
+                                      .green, // Customize the button color
+                                ),
+                                onPressed: () {
+                                  if (key.currentState!.validate()) {
+                                    if (imagefile != null) {
+                                      ReguserModel user = ReguserModel(
+                                        phone: countryCodeController.text +
+                                            numberController.text,
+                                        id: '0',
+                                        email: Email.text,
+                                        pass: pass.text,
+                                        username: Username.text,
+                                        imagefile: image,
+                                        Chatsids: [],
+                                      );
+                                      context.read<SignupCubit>().signUp(user);
+
+                                      if (isSaved) {
+                                        CacheHelper.saveData(
+                                            key: "ISSAVED", value: isSaved);
+                                        CacheHelper.saveData(
+                                            key: "EMAIL", value: Email.text);
+                                        CacheHelper.saveData(
+                                            key: "PASS", value: pass.text);
+                                      }
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text("Image is required")),
+                                      );
+                                    }
+                                  }
+                                  setState(() {
+                                    autovalidateMode = AutovalidateMode.always;
+                                  });
+                                },
+                                child: const Text("NEXT"),
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Login()));
                       },
-                      child: Text(
-                        "Saved",
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Login()));
-                    },
-                    child: const Text("Already Have an account?")),
-              ],
+                      child: const Text(
+                        "Already Have an account?",
+                        style: TextStyle(color: Colors.white),
+                      )),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      floatingActionButton: BlocConsumer<SignupCubit, Signupstates>(
-        listener: (context, state) {
-          if (state is SignupCubitsuccess) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const AuthStateHandler()),
-            );
-          } else if (state is SignupCubitFailure) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(state.err)));
-          }
-        },
-        builder: (context, state) {
-          if (state is SignupCubitloading) {
-            return const CircularProgressIndicator();
-          } else {
-            return TextButton(
-                onPressed: () {
-                  if (key.currentState!.validate()) {
-                    if (imagefile != null) {
-                      ReguserModel user = ReguserModel(
-                          Chatsids: [],
-                          phone: countryCodeController.text +
-                              numberController.text,
-                          id: '0',
-                          email: Email.text,
-                          pass: pass.text,
-                          username: Username.text,
-                          imagefile: image);
-                      context.read<SignupCubit>().signUp(user);
-                      if (isSaved) {
-                        CacheHelper.saveData(key: "ISSAVED", value: isSaved);
-                        CacheHelper.saveData(key: "EMAIL", value: Email.text);
-                        CacheHelper.saveData(key: "PASS", value: pass.text);
-                      }
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Image is requried")));
-                    }
-                  }
-                  setState(() {
-                    autovalidateMode = AutovalidateMode.always;
-                  });
-                },
-                child: const Text("NEXT"));
-          }
-        },
       ),
     );
   }

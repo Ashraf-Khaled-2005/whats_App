@@ -49,6 +49,11 @@ dependencies:
   story_viewer: ^0.2.0
   uuid: ^4.5.1
   video_player: ^2.9.2
+  flutter_launcher_icons: ^0.14.1
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "images/wazzup_logo.png"
 
 dev_dependencies:
   flutter_lints: ^4.0.0

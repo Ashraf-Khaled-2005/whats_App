@@ -45,11 +45,12 @@ class CustomTextField extends StatelessWidget {
       style: TextStyle(fontSize: fontSize),
       autofocus: autoFocus ?? false,
       decoration: InputDecoration(
+        errorStyle: TextStyle(color: Color.fromARGB(255, 32, 5, 122)),
         isDense: true,
         prefixText: prefixText,
         suffix: suffixIcon,
         hintText: hintText,
-        hintStyle: TextStyle(color: Colors.grey),
+        hintStyle: TextStyle(color: Colors.white),
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
             color: Color.fromARGB(255, 42, 115, 44),

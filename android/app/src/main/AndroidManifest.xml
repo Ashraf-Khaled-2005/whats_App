@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:label="our_whatsapp"
+        android:label="Wazz Up"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

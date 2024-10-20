@@ -42,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile"),
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xfff1892e),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -101,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             const SizedBox(height: 20),
             SwitchListTile(
-                title: const Text("Dark"),
+                title: const Text("Light"),
                 value: islight,
                 onChanged: (value) async {
                   await CacheHelper.saveData(key: 'islight', value: !islight);

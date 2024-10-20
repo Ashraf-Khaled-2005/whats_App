@@ -37,6 +37,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xffd95a00),
         onPressed: () async {
           await Navigator.push(
             context,
@@ -63,7 +64,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 },
               )
             : const Text("WhatsApp", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xfff1892e),
         actions: [
           if (!_isSearching) ...[
             IconButton(
