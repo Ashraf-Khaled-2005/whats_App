@@ -73,13 +73,17 @@ class _VerificationPageState extends State<VerificationPage> {
           ElevatedButton(
             onPressed: () async {
               await auth.currentUser!.reload();
-
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => AuthStateHandler(),
-                ),
-              );
+              if (auth.currentUser!.emailVerified) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AuthStateHandler(),
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Please Vertify the email")));
+              }
             },
             child: const Text("Verify"),
           ),

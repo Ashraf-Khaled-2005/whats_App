@@ -36,20 +36,16 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: IconButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await CacheHelper.saveData(key: 'islight', value: !islight);
-          islight = !islight;
-          context.read<SharedCubit>().getShared();
-          setState(() {});
-          // await Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => Addcontact(),
-          //   ),
-          // );
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Addcontact(),
+            ),
+          );
         },
-        icon: const Icon(Icons.add),
+        child: Icon(Icons.add),
       ),
       appBar: AppBar(
         title: _isSearching
@@ -104,7 +100,10 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ],
         ],
-        leading: null,
+        leading: Icon(
+          Icons.add,
+          size: 0,
+        ),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance

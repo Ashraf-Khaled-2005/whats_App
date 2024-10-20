@@ -11,6 +11,8 @@ import 'package:our_whatsapp/core/service/auth_state.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../core/helper/imagepick.dart';
+import '../../../../../core/service/cacheHelper.dart';
+import '../../../../Auth/presentation/manager/cubit/Shared_bloc/Shared_cubit.dart';
 
 class ProfileScreen extends StatefulWidget {
   final MyUserData user;
@@ -21,6 +23,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  bool islight = false;
   late TextEditingController _nameController;
 
   late TextEditingController _phoneController;
@@ -28,6 +31,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? imagepath;
   initState() {
     super.initState();
+    islight = context.read<SharedCubit>().islight;
+
     _nameController = TextEditingController();
     _phoneController = TextEditingController();
   }
@@ -95,6 +100,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             const SizedBox(height: 20),
+            SwitchListTile(
+                title: const Text("Dark"),
+                value: islight,
+                onChanged: (value) async {
+                  await CacheHelper.saveData(key: 'islight', value: !islight);
+                  islight = !islight;
+                  context.read<SharedCubit>().getShared();
+                  setState(() {});
+                }),
             BlocConsumer<EditProfileCubit, EditProfileState>(
               listener: (context, state) {
                 if (state is EditProfileError) {
@@ -141,7 +155,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => AuthStateHandler()),
+                              builder: (context) => const AuthStateHandler()),
                           (Route<dynamic> route) =>
                               false, // This will remove all previous routes
                         );

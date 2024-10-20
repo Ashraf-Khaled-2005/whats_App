@@ -20,7 +20,7 @@ class _statusState extends State<status> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: IconButton(
+      floatingActionButton: FloatingActionButton(
           onPressed: () async {
             await Navigator.push(
               context,
@@ -29,7 +29,9 @@ class _statusState extends State<status> {
               ),
             );
           },
-          icon: const Icon(Icons.add)),
+          child: const Icon(
+            Icons.add,
+          )),
       appBar: AppBar(
           leading: const Icon(Icons.search),
           title: const Text(
@@ -46,7 +48,7 @@ class _statusState extends State<status> {
               padding: const EdgeInsets.all(8.0),
               child: ListTile(
                 onTap: () async {
-                  if (curstories?.isEmpty ?? false) {
+                  if (curstories?.isEmpty ?? true) {
                     await Navigator.push(
                       context,
                       MaterialPageRoute(

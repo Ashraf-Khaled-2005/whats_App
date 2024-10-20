@@ -127,6 +127,7 @@ class _SignupPageState extends State<SignupPage> {
                   height: 10,
                 ),
                 Stack(
+                  clipBehavior: Clip.none,
                   children: [
                     ImagePickerWidget(
                       image: imagefile,
@@ -143,7 +144,6 @@ class _SignupPageState extends State<SignupPage> {
                           },
                           icon: const Icon(
                             Icons.add,
-                            color: Colors.white,
                             size: 24,
                           )),
                     )
